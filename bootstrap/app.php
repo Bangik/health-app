@@ -1,6 +1,7 @@
 <?php
 
 use App\Dto\ResponseApiDto;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -23,6 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 return redirect()->route('login');
             }
         });
+
+        // $middleware->append(AdminMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (AuthenticationException $e, Request $request) {
