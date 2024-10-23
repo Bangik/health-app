@@ -7,6 +7,8 @@
     "require": {
         "php": "^8.2",
         "dedoc/scramble": "^0.11.21",
+        "google/apiclient": "^2.18",
+        "kreait/firebase-php": "^7.10",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",

@@ -24,6 +24,7 @@ class AuthController extends Controller
             'duration_of_hypertension' => 'nullable|integer',
             'phone_number' => 'nullable|string|max:15',
             'gender' => 'nullable|in:M,F',
+            'fcm_token' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -41,9 +42,12 @@ class AuthController extends Controller
             'duration_of_hypertension' => $request->duration_of_hypertension,
             'phone_number' => $request->phone_number,
             'gender' => $request->gender,
+            'fcm_token' => $request->fcm_token ?? null,
         ]);
 
         $token = JWTAuth::fromUser($user);
+
+        User::where('id', $user->id)->update(['token' => $token]);
 
         $response = new ResponseApiDto(true, 201, 'User created', $user, ['token' => $token]);
         return response()->json($response->toArray(), 201);
@@ -55,6 +59,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
             'password' => 'required|string|min:6',
+            'fcm_token' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +74,9 @@ class AuthController extends Controller
             return response()->json($response->toArray(), 401);
         }
 
-        return $this->respondWithToken($token);
+        User::where('username', $request->username)->update(['fcm_token' => $request->fcm_token ?? null, 'token' => $token]);
+
+        return $this->respondWithToken($token, auth()->user());
     }
 
     // Get the authenticated user's profile
@@ -82,6 +89,9 @@ class AuthController extends Controller
     // Logout the user
     public function logout()
     {
+        $user = auth()->user();
+        User::where('id', $user->id)->update(['fcm_token' => null, 'token' => null]);
+
         auth()->logout();
 
         // revoke the token
@@ -97,9 +107,9 @@ class AuthController extends Controller
         return $this->respondWithToken(auth()->refresh());
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $user = null)
     {
-        $response = new ResponseApiDto(true, 200, 'Success', null, ['token' => $token]);
+        $response = new ResponseApiDto(true, 200, 'Success', $user, ['token' => $token]);
         return response()->json($response->toArray(), 200);
     }
 }

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MKnowledgeSeeder::class);
         $this->call(MExerciseLogSeeder::class);
         $this->call(MHealthControlNoteSeeder::class);
+        $this->call(MessageSeeder::class);
     }
 }

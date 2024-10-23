@@ -33,6 +33,8 @@ class User extends Authenticatable implements JWTSubject
         'phone_number',
         'gender',
         'role',
+        'fcm_token',
+        'token',
         'password',
     ];
     /**
@@ -43,6 +45,7 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'token',
     ];
 
     protected $appends = [

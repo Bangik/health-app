@@ -6,6 +6,7 @@ use App\Http\Controllers\ExerciseLogController;
 use App\Http\Controllers\FoodIntakeController;
 use App\Http\Controllers\HealthControlNoteController;
 use App\Http\Controllers\KnowledgeController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,5 +50,10 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/', [HealthControlNoteController::class, 'store']);
         Route::put('/{id}', [HealthControlNoteController::class, 'update']);
         Route::delete('/{id}', [HealthControlNoteController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'message'], function() {
+        Route::get('/', [MessageController::class, 'getMessage']);
+        Route::post('/', [MessageController::class, 'sendMessage']);
     });
 });
