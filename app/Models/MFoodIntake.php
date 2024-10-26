@@ -13,21 +13,16 @@ class MFoodIntake extends Model
 
     protected $fillable = [
         'm_user_id',
-        'food_name',
-        'description',
-        'food_type',
-        'portion',
-        'calories',
-        'protein',
-        'fat',
-        'carbohydrate',
-        'sugar',
-        'cholesterol',
-        'mass',
+        'recipe_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'm_user_id');
+    }
+
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class, 'recipe_id');
     }
 }

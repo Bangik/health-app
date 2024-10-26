@@ -6,7 +6,9 @@ use App\Http\Controllers\ExerciseLogController;
 use App\Http\Controllers\FoodIntakeController;
 use App\Http\Controllers\HealthControlNoteController;
 use App\Http\Controllers\KnowledgeController;
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\RecipeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +24,12 @@ Route::get('exercises/{id}', [ExerciseController::class, 'getExerciseById']);
 
 Route::get('knowledge', [KnowledgeController::class, 'getAll']);
 Route::get('knowledge/{id}', [KnowledgeController::class, 'getById']);
+
+Route::get('medicines', [MedicineController::class, 'getMedicines']);
+Route::get('medicines/{id}', [MedicineController::class, 'getMedicineById']);
+
+Route::get('recipes', [RecipeController::class, 'getRecipes']);
+Route::get('recipes/{id}', [RecipeController::class, 'getRecipeById']);
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', [AuthController::class, 'logout']);

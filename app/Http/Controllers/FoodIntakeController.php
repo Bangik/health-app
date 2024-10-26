@@ -12,7 +12,7 @@ class FoodIntakeController extends Controller
     // Get all food intake records
     public function getAll()
     {
-        $foodIntakes = MFoodIntake::where('m_user_id', auth()->user()->id)->get();
+        $foodIntakes = MFoodIntake::with('recipe')->where('m_user_id', auth()->user()->id)->get();
         $response = new ResponseApiDto(
             status: true,
             code: 200,
@@ -26,7 +26,7 @@ class FoodIntakeController extends Controller
     // Get a specific food intake by ID
     public function getById($id)
     {
-        $foodIntake = MFoodIntake::where('m_user_id', auth()->user()->id)->find($id);
+        $foodIntake = MFoodIntake::with('recipe')->where('m_user_id', auth()->user()->id)->find($id);
 
         if (!$foodIntake) {
             $response = new ResponseApiDto(
@@ -55,17 +55,7 @@ class FoodIntakeController extends Controller
 
         $validator = Validator::make($request->all(), [
             'm_user_id'    => 'required|exists:m_user,id', // Ensuring the user ID exists in the m_user table
-            'food_name'    => 'nullable|string|max:255',
-            'description'  => 'nullable|string|max:255',
-            'food_type'    => 'nullable|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
-            'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|string|max:255',
-            'protein'      => 'nullable|string|max:255',
-            'fat'          => 'nullable|string|max:255',
-            'carbohydrate' => 'nullable|string|max:255',
-            'sugar'        => 'nullable|string|max:255',
-            'cholesterol'  => 'nullable|string|max:255',
-            'mass'         => 'nullable|string|max:255',
+            'recipe_id'    => 'required|exists:recipes,id', // Ensuring the recipe ID exists in the recipe table
         ]);
 
         if ($validator->fails()) {
@@ -110,17 +100,7 @@ class FoodIntakeController extends Controller
 
         $validator = Validator::make($request->all(), [
             'm_user_id'    => 'exists:m_user,id', // Ensuring the user ID exists in the m_user table
-            'food_name'    => 'nullable|string|max:255',
-            'description'  => 'nullable|string|max:255',
-            'food_type'    => 'nullable|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
-            'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|string|max:255',
-            'protein'      => 'nullable|string|max:255',
-            'fat'          => 'nullable|string|max:255',
-            'carbohydrate' => 'nullable|string|max:255',
-            'sugar'        => 'nullable|string|max:255',
-            'cholesterol'  => 'nullable|string|max:255',
-            'mass'         => 'nullable|string|max:255',
+            'recipe_id'    => 'exists:recipes,id', // Ensuring the recipe ID exists in the recipe table
         ]);
 
         if ($validator->fails()) {

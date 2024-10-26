@@ -17,10 +17,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call(MUserSeeder::class);
         $this->call(MExerciseSeeder::class);
+        $this->call(RecipeSeeder::class);
         $this->call(MFoodIntakeSeeder::class);
         $this->call(MKnowledgeSeeder::class);
         $this->call(MExerciseLogSeeder::class);
         $this->call(MHealthControlNoteSeeder::class);
         $this->call(MessageSeeder::class);
+        $this->call(MedicineSeeder::class);
     }
 }

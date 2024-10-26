@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,4 +11,9 @@
   <br>
   Docs API: <a href="{{url('/docs/api#/')}}">Docs API</a>
 </body>
-</html>
+</html> --}}
+
+@extends('layouts.defaults.main')
+@section('title', 'Dashboard')
+@section('content')
+@endsection

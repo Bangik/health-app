@@ -78,4 +78,19 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function chatWithAdmin($adminId)
+    {
+        return Message::where(function ($query) use ($adminId) {
+                $query->where('sender_id', $this->id)
+                    ->where('receiver_id', $adminId);
+            })
+            ->orWhere(function ($query) use ($adminId) {
+                $query->where('sender_id', $adminId)
+                    ->where('receiver_id', $this->id);
+            })
+            ->orderBy('created_at', 'asc')
+            ->get();
+    }
+
 }

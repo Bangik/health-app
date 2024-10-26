@@ -14,17 +14,7 @@ return new class extends Migration
         Schema::create('m_food_intake', function (Blueprint $table) {
             $table->id();
             $table->foreignId('m_user_id')->constrained('m_user');
-            $table->string('food_name')->nullable();
-            $table->string('description')->nullable();
-            $table->enum('food_type', ['breakfast', 'lunch', 'dinner', 'snack'])->nullable();
-            $table->string('portion')->nullable();
-            $table->string('calories')->nullable();
-            $table->string('protein')->nullable();
-            $table->string('fat')->nullable();
-            $table->string('carbohydrate')->nullable();
-            $table->string('sugar')->nullable();
-            $table->string('cholesterol')->nullable();
-            $table->string('mass')->nullable();
+            $table->foreignId('recipe_id')->constrained('recipes');
             $table->timestamps();
         });
     }
