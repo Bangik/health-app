@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dto\ResponseApiDto;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -21,14 +22,32 @@ class MedicineController extends Controller
         $validation = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'type' => 'required|string|in:tablet,capsule,syrup,injection',
+            'mass' => 'required|string',
+            'how_to_use' => 'nullable|string',
+            'side_effects' => 'nullable|string',
+            'indications' => 'nullable|string',
+            'warnings' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validation->fails()) {
-            Alert::error('Error', 'Please fill all the required fields');
+            $errors = implode(', ', $validation->errors()->all());
+            Alert::error('Error', $errors);
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-        Medicine::create($request->all());
+        Medicine::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'type' => $request->type,
+            'mass' => $request->mass,
+            'how_to_use' => $request->how_to_use,
+            'side_effects' => $request->side_effects,
+            'indications' => $request->indications,
+            'warnings' => $request->warnings,
+            'image' => $request->hasFile('image') ? $request->file('image')->store('images/medicine', 'public') : null,
+        ]);
 
         Alert::success('Success', 'Medicine added successfully');
         return redirect()->route('admin.medicine.index');
@@ -39,14 +58,36 @@ class MedicineController extends Controller
         $validation = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'type' => 'required|string|in:tablet,capsule,syrup,injection',
+            'mass' => 'required|string',
+            'how_to_use' => 'nullable|string',
+            'side_effects' => 'nullable|string',
+            'indications' => 'nullable|string',
+            'warnings' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validation->fails()) {
-            Alert::error('Error', 'Please fill all the required fields');
+            $errors = implode(', ', $validation->errors()->all());
+            Alert::error('Error', $errors);
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-        $medicine->update($request->all());
+        if ($request->hasFile('image') && $medicine->image) {
+            Storage::disk('public')->delete($medicine->image);
+        }
+
+        $medicine->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'type' => $request->type,
+            'mass' => $request->mass,
+            'how_to_use' => $request->how_to_use,
+            'side_effects' => $request->side_effects,
+            'indications' => $request->indications,
+            'warnings' => $request->warnings,
+            'image' => $request->hasFile('image') ? $request->file('image')->store('images/medicine', 'public') : $medicine->image,
+        ]);
 
         Alert::success('Success', 'Medicine updated successfully');
         return redirect()->route('admin.medicine.index');
@@ -54,6 +95,10 @@ class MedicineController extends Controller
 
     public function destroy(Medicine $medicine)
     {
+        if ($medicine->image) {
+            Storage::disk('public')->delete($medicine->image);
+        }
+
         $medicine->delete();
         Alert::success('Success', 'Medicine deleted successfully');
         return redirect()->route('admin.medicine.index');

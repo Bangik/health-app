@@ -15,6 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            $table->enum('type', ['tablet', 'capsule', 'syrup', 'injection']);
+            $table->string('mass')->nullable();
+            $table->string('how_to_use')->nullable();
+            $table->string('side_effects')->nullable();
+            $table->string('indications')->nullable();
+            $table->string('warnings')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

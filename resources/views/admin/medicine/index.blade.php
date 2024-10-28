@@ -53,11 +53,19 @@
                         <thead class="bg-gray-100 dark:bg-gray-700">
                             <th scope="col"
                                 class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                Gambar
+                            </th>
+                            <th scope="col"
+                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
                                 Nama Obat
                             </th>
                             <th scope="col"
                                 class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
                                 Deskripsi
+                            </th>
+                            <th scope="col"
+                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                Tipe
                             </th>
                             <th scope="col"
                                 class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
@@ -68,11 +76,20 @@
                             @foreach ($medicines as $medicine)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                                        <img class="h-auto max-w-20 rounded-lg" src="{{ $medicine->image_url }}"
+                                            alt="No image">
+
+                                    </td>
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $medicine->name }}
                                     </td>
                                     <td
                                         class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400">
                                         {{ $medicine->description }}
+                                    </td>
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $medicine->type }}
                                     </td>
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button" id="updateProductButton"
@@ -182,7 +199,8 @@
                 </svg>
                 <span class="sr-only">Tutup menu</span>
             </button>
-            <form action="{{ route('admin.medicine.update', $medicine->id) }}" method="POST">
+            <form action="{{ route('admin.medicine.update', $medicine->id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="space-y-4">
@@ -200,8 +218,67 @@
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Enter event description here">{{ $medicine->description }}</textarea>
                     </div>
+                    <div>
+                        <label for="type-update" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipe
+                            Obat</label>
+                        <select id="type-update" name="type"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <option selected="">Pilih Tipe Obat</option>
+                            <option value="tablet" @if ($medicine->type == 'tablet') selected @endif>Tablet</option>
+                            <option value="capsule" @if ($medicine->type == 'capsule') selected @endif>Kapsul</option>
+                            <option value="syrup" @if ($medicine->type == 'syrup') selected @endif>Sirup</option>
+                            <option value="injection" @if ($medicine->type == 'injection') selected @endif>Suntikan /
+                                Injeksi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="mass"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Massa</label>
+                        <input type="text" name="mass" id="mass"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            value="{{ $medicine->mass }}" placeholder="Type mass" required="">
+                    </div>
+                    <div>
+                        <label for="how-to-use"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aturan Pakai</label>
+                        <textarea id="how-to-use" rows="4" name="how_to_use"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Type how to use here">{{ $medicine->how_to_use }}</textarea>
+                    </div>
+                    <div>
+                        <label for="side_effects"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Efek
+                            Samping</label>
+                        <textarea id="side_effects" rows="4" name="side_effects"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Type side effect here">{{ $medicine->side_effects }}</textarea>
+                    </div>
+                    <div>
+                        <label for="indications"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Indikasi</label>
+                        <textarea id="indications" rows="4" name="indications"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Type indications here">{{ $medicine->indications }}</textarea>
+                    </div>
+                    <div>
+                        <label for="warnings"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Indikasi</label>
+                        <textarea id="warnings" rows="4" name="warnings"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Type warnings here">{{ $medicine->warnings }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            for="file_input">Upload
+                            Gambar</label>
+                        <input
+                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="file_input_help" id="file_input" type="file" name="image">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF
+                        </p>
+                    </div>
                 </div>
-                <div class="bottom-0 left-0 flex justify-center w-full pb-4 mt-4 space-x-4 sm:absolute sm:px-4 sm:mt-0">
+                <div class="bottom-0 left-0 flex justify-center w-full pb-4 mt-4 space-x-4">
                     <button type="submit"
                         class="w-full justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         Update
@@ -276,7 +353,7 @@
             </svg>
             <span class="sr-only">Tutup menu</span>
         </button>
-        <form action="{{ route('admin.medicine.store') }}" method="POST">
+        <form action="{{ route('admin.medicine.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="space-y-4">
                 <div>
@@ -293,7 +370,65 @@
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         placeholder="Ketik deskripsi disini"></textarea>
                 </div>
-                <div class="bottom-0 left-0 flex justify-center w-full pb-4 space-x-4 md:px-4 md:absolute">
+                <div>
+                    <label for="type-update" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipe
+                        Obat</label>
+                    <select id="type-update" name="type"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <option selected="">Pilih Tipe Obat</option>
+                        <option value="tablet">Tablet</option>
+                        <option value="capsule">Kapsul</option>
+                        <option value="syrup">Sirup</option>
+                        <option value="injection">Suntikan / Injeksi</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="mass-create"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Massa</label>
+                    <input type="text" name="mass" id="mass-create"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Ketik massa" required="">
+                </div>
+                <div>
+                    <label for="how-to-use-create"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aturan Pakai</label>
+                    <textarea id="how-to-use-create"" rows="4" name="how_to_use""
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Ketik cara pakai disini"></textarea>
+                </div>
+                <div>
+                    <label for="side_effect_create"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Efek Samping</label>
+                    <textarea id="side_effect_create" rows="4" name="side_effects"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Ketik efek samping disini"></textarea>
+                </div>
+                <div>
+                    <label for="indications"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Indikasi</label>
+                    <textarea id="indications" rows="4" name="indications"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Ketik indikasi disini"></textarea>
+                </div>
+                <div>
+                    <label for="warnings"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Peringatan</label>
+                    <textarea id="warnings" rows="4" name="warnings"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Ketik peringatan disini"></textarea>
+                </div>
+                <div>
+
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload
+                        Gambar</label>
+                    <input
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        aria-describedby="file_input_help" id="file_input" type="file" name="image">
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF
+                    </p>
+
+                </div>
+                <div class="bottom-0 left-0 flex justify-center w-full pb-4 space-x-4">
                     <button type="submit"
                         class="text-white w-full justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         Tambah

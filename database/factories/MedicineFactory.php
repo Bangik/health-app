@@ -21,6 +21,13 @@ class MedicineFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->sentence,
+            'type' => $this->faker->randomElement(['tablet', 'capsule', 'syrup', 'injection']),
+            'mass' => $this->faker->randomDigit,
+            'how_to_use' => $this->faker->sentence,
+            'side_effects' => $this->faker->sentence,
+            'indications' => $this->faker->sentence,
+            'warnings' => $this->faker->sentence,
+            'image' => $this->faker->imageUrl(),
         ];
     }
 }
