@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DrinkLogController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ExerciseLogController;
 use App\Http\Controllers\FoodIntakeController;
@@ -58,6 +59,14 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/', [HealthControlNoteController::class, 'store']);
         Route::put('/{id}', [HealthControlNoteController::class, 'update']);
         Route::delete('/{id}', [HealthControlNoteController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'drink-log'], function() {
+        Route::get('/', [DrinkLogController::class, 'getAll']);
+        Route::get('/{id}', [DrinkLogController::class, 'getById']);
+        Route::post('/', [DrinkLogController::class, 'store']);
+        Route::put('/{id}', [DrinkLogController::class, 'update']);
+        Route::delete('/{id}', [DrinkLogController::class, 'delete']);
     });
 
     Route::group(['prefix' => 'message'], function() {
