@@ -17,4 +17,13 @@ class MKnowledge extends Model
         'slug',
         'image',
     ];
+
+    protected $appends = [
+        'image_url',
+    ];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
 }
