@@ -8,6 +8,7 @@ use App\Http\Controllers\FoodIntakeController;
 use App\Http\Controllers\HealthControlNoteController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\MedicineLogController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RecipeController;
 use Illuminate\Http\Request;
@@ -67,6 +68,14 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/', [DrinkLogController::class, 'store']);
         Route::put('/{id}', [DrinkLogController::class, 'update']);
         Route::delete('/{id}', [DrinkLogController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'medicine-log'], function() {
+        Route::get('/', [MedicineLogController::class, 'getAll']);
+        Route::get('/{id}', [MedicineLogController::class, 'getById']);
+        Route::post('/', [MedicineLogController::class, 'store']);
+        Route::put('/{id}', [MedicineLogController::class, 'update']);
+        Route::delete('/{id}', [MedicineLogController::class, 'delete']);
     });
 
     Route::group(['prefix' => 'message'], function() {
