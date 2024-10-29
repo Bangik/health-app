@@ -17,9 +17,9 @@ class MExerciseLogFactory extends Factory
             'm_user_id' => $this->faker->randomElement(User::pluck('id')),
             'm_exercise_id' => $this->faker->randomElement(MExercise::pluck('id')),
             'description' => $this->faker->sentence,
-            'duration' => $this->faker->numberBetween(10, 120) . ' minutes',
-            'calories' => $this->faker->numberBetween(100, 1000) . ' kcal',
-            'distance' => $this->faker->randomFloat(2, 0.5, 10) . ' km',
+            'duration' => $this->faker->numberBetween(10, 120),
+            'calories' => $this->faker->numberBetween(100, 1000),
+            'distance' => $this->faker->randomFloat(2, 0.5, 10),
         ];
     }
 }

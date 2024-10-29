@@ -10,6 +10,6 @@ class MFoodIntakeSeeder extends Seeder
     public function run()
     {
         // Create 10 food intake records
-        MFoodIntake::factory(10)->create();
+        MFoodIntake::factory(30)->create();
     }
 }

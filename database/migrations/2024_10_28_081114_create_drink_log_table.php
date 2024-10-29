@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('m_user', 'id')->cascadeOnDelete();
             $table->string('drink_name');
-            $table->string('amount');
+            $table->integer('amount');
             $table->timestamps();
         });
     }

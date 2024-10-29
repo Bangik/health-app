@@ -20,22 +20,23 @@ class RecipeController extends Controller
     public function store(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'food_name'    => 'nullable|string|max:255',
-            'description'  => 'nullable|string|max:255',
-            'food_type'    => 'nullable|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
+            'food_name'    => 'required|string|max:255',
+            'description'  => 'required|string|max:255',
+            'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
             'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|string|max:255',
-            'protein'      => 'nullable|string|max:255',
-            'fat'          => 'nullable|string|max:255',
-            'carbohydrate' => 'nullable|string|max:255',
-            'sugar'        => 'nullable|string|max:255',
-            'cholesterol'  => 'nullable|string|max:255',
-            'mass'         => 'nullable|string|max:255',
+            'calories'     => 'nullable|numeric',
+            'protein'      => 'nullable|numeric',
+            'fat'          => 'nullable|numeric',
+            'carbohydrate' => 'nullable|numeric',
+            'sugar'        => 'nullable|numeric',
+            'cholesterol'  => 'nullable|numeric',
+            'mass'         => 'nullable|numeric',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validation->fails()) {
-            Alert::error('Error', 'Please fill all the required fields');
+            $errorMessages = implode(', ', $validation->errors()->all());
+            Alert::error('Error', $errorMessages);
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
@@ -61,17 +62,17 @@ class RecipeController extends Controller
     public function update(Request $request, Recipe $recipe)
     {
         $validation = Validator::make($request->all(), [
-            'food_name'    => 'nullable|string|max:255',
-            'description'  => 'nullable|string|max:255',
-            'food_type'    => 'nullable|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
+            'food_name'    => 'required|string|max:255',
+            'description'  => 'required|string|max:255',
+            'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
             'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|string|max:255',
-            'protein'      => 'nullable|string|max:255',
-            'fat'          => 'nullable|string|max:255',
-            'carbohydrate' => 'nullable|string|max:255',
-            'sugar'        => 'nullable|string|max:255',
-            'cholesterol'  => 'nullable|string|max:255',
-            'mass'         => 'nullable|string|max:255',
+            'calories'     => 'nullable|numeric',
+            'protein'      => 'nullable|numeric',
+            'fat'          => 'nullable|numeric',
+            'carbohydrate' => 'nullable|numeric',
+            'sugar'        => 'nullable|numeric',
+            'cholesterol'  => 'nullable|numeric',
+            'mass'         => 'nullable|numeric',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -151,6 +152,125 @@ class RecipeController extends Controller
             code: 200,
             message: 'Success get recipe',
             data: $recipe
+        );
+
+        return response()->json($response->toArray(), 200);
+    }
+
+    public function storeRecipe(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'food_name'    => 'required|string|max:255',
+            'description'  => 'required|string|max:255',
+            'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
+            'portion'      => 'nullable|string|max:255',
+            'calories'     => 'nullable|numeric',
+            'protein'      => 'nullable|numeric',
+            'fat'          => 'nullable|numeric',
+            'carbohydrate' => 'nullable|numeric',
+            'sugar'        => 'nullable|numeric',
+            'cholesterol'  => 'nullable|numeric',
+            'mass'         => 'nullable|numeric',
+            'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($validation->fails()) {
+            $response = new ResponseApiDto(
+                status: false,
+                code: 400,
+                message: $validation->errors()->first()
+            );
+
+            return response()->json($response->toArray(), 400);
+        }
+
+        Recipe::create([
+            'food_name'    => $request->food_name,
+            'description'  => $request->description,
+            'food_type'    => $request->food_type,
+            'portion'      => $request->portion,
+            'calories'     => $request->calories,
+            'protein'      => $request->protein,
+            'fat'          => $request->fat,
+            'carbohydrate' => $request->carbohydrate,
+            'sugar'        => $request->sugar,
+            'cholesterol'  => $request->cholesterol,
+            'mass'         => $request->mass,
+            'image'        => $request->hasFile('image') ? $request->file('image')->store('images/recipe', 'public') : null,
+        ]);
+
+        $response = new ResponseApiDto(
+            status: true,
+            code: 201,
+            message: 'Success create recipe'
+        );
+
+        return response()->json($response->toArray(), 201);
+    }
+
+    public function updateRecipe(Request $request, $id)
+    {
+        $recipe = Recipe::find($id);
+
+        if (!$recipe) {
+            $response = new ResponseApiDto(
+                status: false,
+                code: 404,
+                message: 'Recipe not found'
+            );
+
+            return response()->json($response->toArray(), 404);
+        }
+
+        $validation = Validator::make($request->all(), [
+            'food_name'    => 'required|string|max:255',
+            'description'  => 'required|string|max:255',
+            'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
+            'portion'      => 'nullable|string|max:255',
+            'calories'     => 'nullable|numeric',
+            'protein'      => 'nullable|numeric',
+            'fat'          => 'nullable|numeric',
+            'carbohydrate' => 'nullable|numeric',
+            'sugar'        => 'nullable|numeric',
+            'cholesterol'  => 'nullable|numeric',
+            'mass'         => 'nullable|numeric',
+            'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($validation->fails()) {
+            $response = new ResponseApiDto(
+                status: false,
+                code: 400,
+                message: $validation->errors()->first()
+            );
+
+            return response()->json($response->toArray(), 400);
+        }
+
+        // Delete the image if it exists
+        if ($recipe->image && $request->hasFile('image')) {
+            Storage::disk('public')->delete($recipe->image);
+        }
+
+        $recipe->update([
+            'food_name'    => $request->food_name,
+            'description'  => $request->description,
+            'food_type'    => $request->food_type,
+            'portion'      => $request->portion,
+            'calories'     => $request->calories,
+            'protein'      => $request->protein,
+            'fat'          => $request->fat,
+            'carbohydrate' => $request->carbohydrate,
+            'sugar'        => $request->sugar,
+            'cholesterol'  => $request->cholesterol,
+            'mass'         => $request->mass,
+            'image'        => $request->hasFile('image') ? $request->file('image')->store('images/recipe', 'public') : $recipe->image,
+        ]);
+
+        $response = new ResponseApiDto(
+            status: true,
+            code: 200,
+            message: 'Success update recipe'
         );
 
         return response()->json($response->toArray(), 200);

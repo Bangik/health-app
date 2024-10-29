@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Dto\ResponseApiDto;
+use App\Helpers\SummaryHelper;
+use App\Http\Resources\DailySummaryResource;
+use App\Http\Resources\FoodLogResource;
 use App\Models\Message;
+use App\Models\MFoodIntake;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -120,5 +125,51 @@ class UserController extends Controller
 
         Alert::success('Success', 'Message sent successfully');
         return redirect()->route('admin.user.index');
+    }
+
+    public function dailySummary(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'date' => 'required|date',
+        ]);
+
+        if ($validation->fails()) {
+            $response = new ResponseApiDto(
+                status: false,
+                code: 400,
+                message: 'Validation error',
+                data: $validation->errors()
+            );
+
+            return response()->json($response->toArray(), 400);
+        }
+
+        $response = new ResponseApiDto(
+            status: true,
+            code: 200,
+            message: 'Success get daily summary',
+            data: SummaryHelper::getSummary($request->date)
+        );
+
+        return response()->json($response->toArray(), 200);
+    }
+
+    public function getAllDailySummary()
+    {
+
+        $dates = [];
+        for ($i = 0; $i < 7; $i++) {
+            $date = Carbon::now()->subDays($i)->format('Y-m-d');
+            $dates[$date] = SummaryHelper::getSummary($date);
+        }
+
+        $response = new ResponseApiDto(
+            status: true,
+            code: 200,
+            message: 'Success get all daily summary',
+            data: $dates
+        );
+
+        return response()->json($response->toArray(), 200);
     }
 }

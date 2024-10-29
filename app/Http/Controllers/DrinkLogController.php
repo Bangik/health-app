@@ -53,7 +53,7 @@ class DrinkLogController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id'    => 'required|exists:m_user,id',
             'drink_name'   => 'required|string',
-            'amount'       => 'required|string',
+            'amount'       => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -95,7 +95,7 @@ class DrinkLogController extends Controller
 
         $validator = Validator::make($request->all(), [
             'drink_name'   => 'required|string',
-            'amount'       => 'required|string',
+            'amount'       => 'required|numeric',
         ]);
 
         if ($validator->fails()) {

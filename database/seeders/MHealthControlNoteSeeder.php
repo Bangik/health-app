@@ -10,6 +10,6 @@ class MHealthControlNoteSeeder extends Seeder
     public function run()
     {
         // Create 10 health control note records
-        MHealthControlNote::factory(10)->create();
+        MHealthControlNote::factory(30)->create();
     }
 }

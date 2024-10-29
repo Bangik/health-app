@@ -10,6 +10,6 @@ class MExerciseLogSeeder extends Seeder
     public function run()
     {
         // Create 10 exercise log records
-        MExerciseLog::factory(10)->create();
+        MExerciseLog::factory(30)->create();
     }
 }

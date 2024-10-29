@@ -93,4 +93,28 @@ class User extends Authenticatable implements JWTSubject
             ->get();
     }
 
+    public function foodIntakes()
+    {
+        return $this->hasMany(MFoodIntake::class, 'm_user_id', 'id');
+    }
+
+    public function drinkLogs()
+    {
+        return $this->hasMany(DrinkLog::class, 'user_id', 'id');
+    }
+
+    public function exerciseLogs()
+    {
+        return $this->hasMany(MExerciseLog::class, 'm_user_id', 'id');
+    }
+
+    public function healthControlNote()
+    {
+        return $this->hasMany(MHealthControlNote::class, 'm_user_id', 'id');
+    }
+
+    public function medicineLogs()
+    {
+        return $this->hasMany(MedicineLog::class, 'user_id', 'id');
+    }
 }

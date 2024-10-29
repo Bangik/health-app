@@ -13,6 +13,6 @@ class DrinkLogSeeder extends Seeder
      */
     public function run(): void
     {
-        DrinkLog::factory(20)->create();
+        DrinkLog::factory(30)->create();
     }
 }

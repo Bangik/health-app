@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('m_user_id')->constrained('m_user');
             $table->foreignId('m_exercise_id')->constrained('m_exercise');
             $table->string('description')->nullable();
-            $table->string('duration')->nullable();
-            $table->string('calories')->nullable();
-            $table->string('distance')->nullable();
+            $table->integer('duration')->nullable();
+            $table->integer('calories')->nullable();
+            $table->integer('distance')->nullable();
             $table->timestamps();
         });
     }
