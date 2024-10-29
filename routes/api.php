@@ -90,4 +90,9 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/', [RecipeController::class, 'storeRecipe']);
         Route::post('/{id}', [RecipeController::class, 'updateRecipe']);
     });
+
+    Route::group(['prefix' => 'medicines'], function() {
+        Route::post('/', [MedicineController::class, 'storeMedicine']);
+        Route::post('/{id}', [MedicineController::class, 'updateMedicine']);
+    });
 });
