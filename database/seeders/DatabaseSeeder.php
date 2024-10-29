@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DrinkLogSeeder::class);
         $this->call(MedicineLogSeeder::class);
         $this->call(NoteSeeder::class);
+        $this->call(ReminderSeeder::class);
     }
 }

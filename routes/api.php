@@ -12,6 +12,7 @@ use App\Http\Controllers\MedicineLogController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -103,5 +104,13 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/', [NoteController::class, 'store']);
         Route::put('/{id}', [NoteController::class, 'update']);
         Route::delete('/{id}', [NoteController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'reminders'], function() {
+        Route::get('/', [ReminderController::class, 'getAll']);
+        Route::get('/{id}', [ReminderController::class, 'getById']);
+        Route::post('/', [ReminderController::class, 'store']);
+        Route::put('/{id}', [ReminderController::class, 'update']);
+        Route::delete('/{id}', [ReminderController::class, 'delete']);
     });
 });
