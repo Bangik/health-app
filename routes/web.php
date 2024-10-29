@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -42,5 +43,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::put('/user/{user}', [UserController::class, 'update'])->name('admin.user.update');
         Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('admin.user.destroy');
         Route::post('/user/message/send', [UserController::class, 'sendMessage'])->name('admin.user.sendMessage');
+
+        Route::get('/reminder/{user}', [ReminderController::class, 'index'])->name('admin.reminder.index');
     });
 });

@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Validator;
 
 class ReminderController extends Controller
 {
+    public function index($id)
+    {
+        $reminders = Reminder::where('user_id', $id)->get();
+        return view('admin.reminder.index', compact('reminders'));
+    }
+
     public function getAll()
     {
         $foodIntakes = Reminder::where('user_id', auth()->user()->id)->get();

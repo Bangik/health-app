@@ -1,5 +1,5 @@
 @extends('layouts.defaults.main')
-@section('title', 'Medicine')
+@section('title', 'List Pengguna')
 @section('content')
     <div
         class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -105,15 +105,25 @@
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $user->gender }}</td>
                                     <td class="p-4 space-x-2 whitespace-nowrap">
+                                        <a href="{{ route('admin.reminder.index', $user->id) }}"
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM6 6a1 1 0 0 1-.707-.293l-1-1a1 1 0 0 1 1.414-1.414l1 1A1 1 0 0 1 6 6Zm-2 4H3a1 1 0 0 1 0-2h1a1 1 0 1 1 0 2Zm14-4a1 1 0 0 1-.707-1.707l1-1a1 1 0 1 1 1.414 1.414l-1 1A1 1 0 0 1 18 6Zm3 4h-1a1 1 0 1 1 0-2h1a1 1 0 1 1 0 2ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z" />
+                                            </svg>
+
+                                            List Reminder
+                                        </a>
                                         <button type="button" id="updateProductButton"
                                             data-drawer-target="drawer-chat-product-default-{{ $loop->iteration }}"
                                             data-drawer-show="drawer-chat-product-default-{{ $loop->iteration }}"
                                             aria-controls="drawer-chat-product-default-{{ $loop->iteration }}"
                                             data-drawer-placement="right"
                                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                            <svg class="w-4 h-4 mr-2" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                                 <path fill-rule="evenodd"
                                                     d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z"
                                                     clip-rule="evenodd" />
@@ -376,18 +386,19 @@
             @foreach ($user->messages as $message)
                 <div class="flex items-start gap-2.5 mt-3">
                     <div
-                        class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 dark:bg-gray-700 {{$message->sender_id == Auth::user()->id ? 'rounded-s-xl rounded-se-xl' : 'rounded-e-xl rounded-es-xl'}}">
+                        class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 dark:bg-gray-700 {{ $message->sender_id == Auth::user()->id ? 'rounded-s-xl rounded-se-xl' : 'rounded-e-xl rounded-es-xl' }}">
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ $message->receiver->name }}
                             <span
-                                class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->created_at->diffForHumans() }}</span>
+                                class="text-sm font-semibold text-gray-900 dark:text-white">{{ $message->receiver->name }}
+                                <span
+                                    class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->created_at->diffForHumans() }}</span>
                         </div>
                         <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{ $message->content }}</p>
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->status }}</span>
                     </div>
                 </div>
             @endforeach
-            <form action="{{route('admin.user.sendMessage')}}" method="POST">
+            <form action="{{ route('admin.user.sendMessage') }}" method="POST">
                 @csrf
                 <input type="hidden" name="receiver_id" value="{{ $user->id }}">
                 <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">

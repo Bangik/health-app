@@ -104,9 +104,12 @@ class MedicineController extends Controller
         return redirect()->route('admin.medicine.index');
     }
 
-    public function getMedicines()
+    public function getMedicines(Request $request)
     {
-        $exercises = Medicine::all();
+        $medicinName = $request->query('name');
+        $exercises = Medicine::when($medicinName, function ($query, $medicinName) {
+            return $query->where('name', 'like', "%$medicinName%");
+        })->get();
 
         $response = new ResponseApiDto(
             status: true,

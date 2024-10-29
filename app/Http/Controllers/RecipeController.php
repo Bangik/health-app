@@ -119,9 +119,12 @@ class RecipeController extends Controller
         return redirect()->route('admin.recipe.index');
     }
 
-    public function getRecipes()
+    public function getRecipes(Request $request)
     {
-        $recipes = Recipe::all();
+        $foodName = $request->query('food_name');
+        $recipes = Recipe::when($foodName, function ($query, $foodName) {
+            return $query->where('food_name', 'like', "%$foodName%");
+        })->get();
 
         $response = new ResponseApiDto(
             status: true,
