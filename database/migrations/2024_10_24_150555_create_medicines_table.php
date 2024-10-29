@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('medicines', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
-            $table->enum('type', ['tablet', 'capsule', 'syrup', 'injection']);
+            $table->string('description')->nullable();
+            $table->enum('type', ['tablet', 'capsule', 'syrup', 'injection'])->default('tablet');
             $table->string('mass')->nullable();
             $table->string('how_to_use')->nullable();
             $table->string('side_effects')->nullable();

@@ -21,6 +21,7 @@ class UserFactory extends Factory
             'duration_of_hypertension' => $this->faker->numberBetween(1, 20), // duration in years
             'phone_number' => $this->faker->phoneNumber,
             'gender' => $this->faker->randomElement(['M', 'F']),
+            'note_hypertension' => $this->faker->sentence,
             'role' => 'user', // default role
             'password' => bcrypt('password'), // default password or hashed random password
             'remember_token' => Str::random(10),

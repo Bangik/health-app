@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('duration_of_hypertension')->nullable();
             $table->string('phone_number')->nullable();
             $table->enum('gender', ['M', 'F'])->nullable();
+            $table->text('note_hypertension')->nullable();
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('password');
             $table->rememberToken();

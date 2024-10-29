@@ -32,6 +32,7 @@ class User extends Authenticatable implements JWTSubject
         'duration_of_hypertension',
         'phone_number',
         'gender',
+        'note_hypertension',
         'role',
         'fcm_token',
         'token',
