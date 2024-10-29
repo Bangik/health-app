@@ -10,6 +10,7 @@ use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\MedicineLogController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -94,5 +95,13 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::group(['prefix' => 'medicines'], function() {
         Route::post('/', [MedicineController::class, 'storeMedicine']);
         Route::post('/{id}', [MedicineController::class, 'updateMedicine']);
+    });
+
+    Route::group(['prefix' => 'notes'], function() {
+        Route::get('/', [NoteController::class, 'getAll']);
+        Route::get('/{id}', [NoteController::class, 'getById']);
+        Route::post('/', [NoteController::class, 'store']);
+        Route::put('/{id}', [NoteController::class, 'update']);
+        Route::delete('/{id}', [NoteController::class, 'delete']);
     });
 });
