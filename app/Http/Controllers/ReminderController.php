@@ -11,7 +11,7 @@ class ReminderController extends Controller
 {
     public function index($id)
     {
-        $reminders = Reminder::where('user_id', $id)->get();
+        $reminders = Reminder::where('user_id', $id)->orderBy('reminder_date', 'asc')->orderBy('reminder_time', 'asc')->get();
         return view('admin.reminder.index', compact('reminders'));
     }
 

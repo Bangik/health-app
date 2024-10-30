@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\ResponseApiDto;
+use App\Helpers\ReminderHelper;
 use App\Models\Medicine;
 use App\Models\MExercise;
 use App\Models\Reminder;
@@ -73,6 +74,8 @@ class AuthController extends Controller
                     'type' => 'exercise',
                     'status' => 'pending',
                 ]);
+
+                ReminderHelper::storeReminderDefault($user->id, $i);
 
                 if ($request->medicine_name && $request->medicine_count) {
                     for ($j = 0; $j < $request->medicine_count; $j++) {

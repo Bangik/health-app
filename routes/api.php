@@ -15,11 +15,20 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
+
+// Route::get('/schedule-fcm', function () {
+//     Artisan::call('app:send-notification-fcm-command');
+//     return response()->json([
+//         'message'   => 'Command executed successfully',
+//         'output'    => Artisan::output()
+//     ]);
+// });
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
