@@ -15,10 +15,10 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
-# run queue
+# run schedule
 
-CMD php artisan queue:work
+CMD php artisan schedule:work
 
 # build image
-# sudo docker build -t laravel-queue -f Dockerfile.queue .
-# sudo docker run --name laravel-queue -d --network laravel -v $(pwd):/var/www/html laravel php artisan queue:work
+# sudo docker build -t laravel-schedule -f Dockerfile.schedule .
+# sudo docker run --name laravel-schedule -d --network laravel -v $(pwd):/var/www/html laravel-schedule
