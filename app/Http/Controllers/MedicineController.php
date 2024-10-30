@@ -74,7 +74,9 @@ class MedicineController extends Controller
         }
 
         if ($request->hasFile('image') && $medicine->image) {
-            Storage::disk('public')->delete($medicine->image);
+            if ($medicine->image !== 'default.jpg') {
+                Storage::disk('public')->delete($medicine->image);
+            }
         }
 
         $medicine->update([
@@ -96,7 +98,9 @@ class MedicineController extends Controller
     public function destroy(Medicine $medicine)
     {
         if ($medicine->image) {
-            Storage::disk('public')->delete($medicine->image);
+            if ($medicine->image !== 'default.jpg') {
+                Storage::disk('public')->delete($medicine->image);
+            }
         }
 
         $medicine->delete();
@@ -230,7 +234,9 @@ class MedicineController extends Controller
         }
 
         if ($request->hasFile('image') && $medicine->image) {
-            Storage::disk('public')->delete($medicine->image);
+            if ($medicine->image !== 'default.jpg') {
+                Storage::disk('public')->delete($medicine->image);
+            }
         }
 
         $medicine->update([

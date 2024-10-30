@@ -59,7 +59,9 @@ class KnowledgeController extends Controller
 
         // delete old image
         if ($request->hasFile('image') && $knowledge->image) {
-            Storage::disk('public')->delete($knowledge->image);
+            if($knowledge->image !== 'default.jpg') {
+                Storage::disk('public')->delete($knowledge->image);
+            }
         }
 
         $knowledge->update([
@@ -76,7 +78,9 @@ class KnowledgeController extends Controller
     public function destroy(MKnowledge $knowledge)
     {
         if ($knowledge->image) {
-            Storage::disk('public')->delete($knowledge->image);
+            if ($knowledge->image !== 'default.jpg') {
+                Storage::disk('public')->delete($knowledge->image);
+            }
         }
 
         $knowledge->delete();

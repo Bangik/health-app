@@ -85,7 +85,9 @@ class RecipeController extends Controller
 
         // Delete the image if it exists
         if ($recipe->image && $request->hasFile('image')) {
-            Storage::disk('public')->delete($recipe->image);
+            if ($recipe->image !== 'default.jpg') {
+                Storage::disk('public')->delete($recipe->image);
+            }
         }
 
         $recipe->update([
@@ -111,7 +113,9 @@ class RecipeController extends Controller
     {
         // Delete the image if it exists
         if ($recipe->image) {
-            Storage::disk('public')->delete($recipe->image);
+            if ($recipe->image !== 'default.jpg') {
+                Storage::disk('public')->delete($recipe->image);
+            }
         }
         $recipe->delete();
 
@@ -252,7 +256,9 @@ class RecipeController extends Controller
 
         // Delete the image if it exists
         if ($recipe->image && $request->hasFile('image')) {
-            Storage::disk('public')->delete($recipe->image);
+            if ($recipe->image !== 'default.jpg') {
+                Storage::disk('public')->delete($recipe->image);
+            }
         }
 
         $recipe->update([
