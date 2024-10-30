@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('medicine_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('medicine_id')->constrained('medicines', 'id');
-            $table->foreignId('user_id')->constrained('m_user', 'id');
+            $table->foreignId('medicine_id')->constrained('medicines', 'id')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('m_user', 'id')->onDelete('cascade');
             $table->integer('quantity');
             $table->dateTime('datetime');
             $table->timestamps();

@@ -27,7 +27,7 @@ class MedicineFactory extends Factory
             'side_effects' => $this->faker->sentence,
             'indications' => $this->faker->sentence,
             'warnings' => $this->faker->sentence,
-            'image' => $this->faker->imageUrl(),
+            'image' => 'default.jpg',
         ];
     }
 }

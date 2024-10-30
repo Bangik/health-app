@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('m_health_control_note', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('m_user_id')->constrained('m_user');
+            $table->foreignId('m_user_id')->constrained('m_user')->onDelete('cascade');
             $table->integer('systolic_pressure')->nullable();
             $table->integer('diastolic_pressure')->nullable();
             $table->timestamps();

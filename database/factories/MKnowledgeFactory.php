@@ -16,7 +16,7 @@ class MKnowledgeFactory extends Factory
             'title' => $this->faker->sentence,
             'content' => $this->faker->paragraphs(3, true),
             'slug' => Str::slug($this->faker->sentence),
-            'image' => $this->faker->imageUrl(640, 480, 'knowledge', true), // generates a random image URL
+            'image' => 'default.jpg',
         ];
     }
 }
