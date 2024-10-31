@@ -45,13 +45,14 @@ Route::get('medicines/{id}', [MedicineController::class, 'getMedicineById']);
 Route::get('recipes', [RecipeController::class, 'getRecipes']);
 Route::get('recipes/{id}', [RecipeController::class, 'getRecipeById']);
 
+Route::get('test-notif', [UserController::class, 'sendTestNotif']);
+
 Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('daily-summary', [UserController::class, 'dailySummary']);
     Route::get('all-daily-summary', [UserController::class, 'getAllDailySummary']);
-    Route::get('test-notif', [UserController::class, 'sendTestNotif']);
 
     Route::group(['prefix' => 'food-intake'], function() {
         Route::get('/', [FoodIntakeController::class, 'getAll']);
