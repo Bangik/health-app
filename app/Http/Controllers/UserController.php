@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\ResponseApiDto;
+use App\Helpers\FcmHelper;
 use App\Helpers\SummaryHelper;
 use App\Http\Resources\DailySummaryResource;
 use App\Http\Resources\FoodLogResource;
@@ -123,6 +124,19 @@ class UserController extends Controller
             'content' => $content,
         ]);
 
+        FcmHelper::send(
+            topic: 'notification',
+            title: 'New Message',
+            bodyMessage: $message,
+            type: 'notification',
+            data: [
+                'message_id' => $message->id,
+                'sender_id' => $request->sender_id,
+                'receiver_id' => $request->receiver_id,
+                'content' => $content,
+            ]
+        );
+
         Alert::success('Success', 'Message sent successfully');
         return redirect()->route('admin.user.index');
     }
@@ -168,6 +182,42 @@ class UserController extends Controller
             code: 200,
             message: 'Success get all daily summary',
             data: $dates
+        );
+
+        return response()->json($response->toArray(), 200);
+    }
+
+    public function sendTestNotif(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'message' => 'string',
+        ]);
+
+        if ($validation->fails()) {
+            $response = new ResponseApiDto(
+                status: false,
+                code: 400,
+                message: 'Validation error',
+                data: $validation->errors()
+            );
+
+            return response()->json($response->toArray(), 400);
+        }
+
+        $message = $request->message ?? 'This is a test notification';
+        
+        $res = FcmHelper::send(
+            topic: 'notification',
+            title: 'Test Notification',
+            bodyMessage: $message,
+            type: 'notification',
+        );
+
+        $response = new ResponseApiDto(
+            status: true,
+            code: 200,
+            message: 'Success send test notification',
+            data: $res
         );
 
         return response()->json($response->toArray(), 200);
