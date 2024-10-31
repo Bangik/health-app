@@ -391,7 +391,7 @@
                             <span
                                 class="text-sm font-semibold text-gray-900 dark:text-white">{{ $message->receiver->name }}
                                 <span
-                                    class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->created_at->diffForHumans() }}</span>
+                                    class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->created_at }}</span>
                         </div>
                         <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{ $message->content }}</p>
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->status }}</span>
