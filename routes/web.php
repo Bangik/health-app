@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('admin.user.destroy');
         Route::post('/user/message/send', [UserController::class, 'sendMessage'])->name('admin.user.sendMessage');
 
-        Route::get('/reminder/{user}', [ReminderController::class, 'index'])->name('admin.reminder.index');
+        Route::get('/reminder/{id}', [ReminderController::class, 'index'])->name('admin.reminder.index');
+        Route::post('/reminder/{id}', [ReminderController::class, 'storeWeb'])->name('admin.reminder.storeWeb');
     });
 });

@@ -6,13 +6,14 @@ use App\Dto\ResponseApiDto;
 use App\Models\Reminder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ReminderController extends Controller
 {
     public function index($id)
     {
         $reminders = Reminder::where('user_id', $id)->orderBy('reminder_date', 'asc')->orderBy('reminder_time', 'asc')->get();
-        return view('admin.reminder.index', compact('reminders'));
+        return view('admin.reminder.index', compact('reminders', 'id'));
     }
 
     public function getAll()
@@ -26,6 +27,29 @@ class ReminderController extends Controller
         );
 
         return response()->json($response->toArray(), 200);
+    }
+
+    public function storeWeb(Request $request, $id)
+    {
+        $request->merge(['user_id' => $id]);
+        $validator = Validator::make($request->all(), [
+            'title'   => 'required|string',
+            'message' => 'required|string',
+            'reminder_date' => 'required|date',
+            'reminder_time' => 'required|date_format:H:i',
+            'type' => 'required|string|in:breakfast,lunch,dinner,snack,drink,exercise,medicine,reading,other',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = implode(', ', $validator->errors()->all());
+            Alert::error('Error', $errors);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        Reminder::create($request->all());
+
+        Alert::success('Success', 'Reminder created successfully');
+        return redirect()->route('admin.reminder.index', ['id' => auth()->user()->id]);
     }
 
     public function getById($id)
