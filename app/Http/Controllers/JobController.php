@@ -11,8 +11,7 @@ class JobController extends Controller
     public function index()
     {
         $failedJobs = DB::table('failed_jobs')->get();
-
-        if (!$failedJobs) {
+        if ($failedJobs->isEmpty()) {
             $response = new ResponseApiDto(
                 status: false,
                 code: 404,
@@ -28,5 +27,7 @@ class JobController extends Controller
             message: 'Success get all failed jobs',
             data: $failedJobs
         );
+
+        return response()->json($response->toArray(), 200);
     }
 }
