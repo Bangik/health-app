@@ -6,6 +6,7 @@ use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ExerciseLogController;
 use App\Http\Controllers\FoodIntakeController;
 use App\Http\Controllers\HealthControlNoteController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\MedicineLogController;
@@ -46,6 +47,7 @@ Route::get('recipes', [RecipeController::class, 'getRecipes']);
 Route::get('recipes/{id}', [RecipeController::class, 'getRecipeById']);
 
 Route::get('test-notif', [UserController::class, 'sendTestNotif']);
+Route::get('failed-job', [JobController::class, 'index']);
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', [AuthController::class, 'logout']);
