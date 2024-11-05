@@ -29,26 +29,36 @@ class SendNotificationFcmCommand extends Command
      */
     public function handle()
     {
-        Reminder::with('user')
+        $reminders = Reminder::with('user')
         ->where('status', 'pending')
         ->whereDate('reminder_date', Carbon::now()->toDateString())
         ->whereTime('reminder_time', '>=', Carbon::now()->toTimeString())
-        ->get()->each(function ($reminder) {
-            dispatch(new SendNotificationFcmJob($reminder, $reminder->user));
-            // FcmHelper::send(
-            //     topic: $reminder->user->id,
-            //     title: $reminder->title,
-            //     bodyMessage: $reminder->message,
-            //     type: 'notification',
-            //     data: [
-            //         'id' => $reminder->id,
-            //         'title' => $reminder->title,
-            //         'message' => $reminder->message,
-            //     ]
-            // );
+        ->get();
+        // ->each(function ($reminder) {
+        //     dispatch(new SendNotificationFcmJob($reminder, $reminder->user));
+        //     // FcmHelper::send(
+        //     //     topic: $reminder->user->id,
+        //     //     title: $reminder->title,
+        //     //     bodyMessage: $reminder->message,
+        //     //     type: 'notification',
+        //     //     data: [
+        //     //         'id' => $reminder->id,
+        //     //         'title' => $reminder->title,
+        //     //         'message' => $reminder->message,
+        //     //     ]
+        //     // );
 
-            $reminder->update(['status' => 'completed']);
-        });
+        //     $reminder->update(['status' => 'completed']);
+        // });
+
+        if (!$reminders->isEmpty() || $reminders->count() !== 0) {
+            foreach ($reminders as $reminder) {
+                dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->addSeconds(3));
+                $reminder->update(['status' => 'completed']);
+                $this->info('Send notification FCM command for reminder ID ' . $reminder->id . ' successfully.');
+                sleep(3);
+            }
+        }
 
         $this->info('Send notification FCM command successfully.');
     }
