@@ -97,9 +97,9 @@
                                         {{ $reminder->message }}
                                     </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $reminder->reminder_date }}</td>
+                                        {{ \Carbon\Carbon::parse($reminder->reminder_date)->timezone('Asia/Jakarta')->format('d-m-Y') }} </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $reminder->reminder_time }}</td>
+                                        {{ \Carbon\Carbon::parse($reminder->reminder_time)->timezone('Asia/Jakarta')->format('H:i') }}</td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $reminder->type }}</td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">

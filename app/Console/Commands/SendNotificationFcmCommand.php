@@ -55,7 +55,7 @@ class SendNotificationFcmCommand extends Command
             foreach ($reminders as $reminder) {
                 dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->addSeconds(3));
                 $reminder->update(['status' => 'completed']);
-                $this->info('Send notification FCM command for reminder ID ' . $reminder->id . ' successfully.');
+                $this->info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.');
                 sleep(3);
             }
         }
