@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('daily-summary', [UserController::class, 'dailySummary']);
     Route::get('all-daily-summary', [UserController::class, 'getAllDailySummary']);
+    Route::get('test-notif-with-fcm', [UserController::class, 'sendTestNotifWithFCM']);
 
     Route::group(['prefix' => 'food-intake'], function() {
         Route::get('/', [FoodIntakeController::class, 'getAll']);
