@@ -26,16 +26,17 @@ class SendNotificationFcmJob implements ShouldQueue
      */
     public function handle(): void
     {
-        FcmHelper::send(
-            topic: 'reminder-' . $this->user->id,
+        FcmHelper::sendWithFcm(
+            // topic: 'reminder-' . $this->user->id,
             title: $this->reminder->title,
             bodyMessage: $this->reminder->message,
             type: 'notification',
-            data: [
-                'id' => $this->reminder->id,
-                'title' => $this->reminder->title,
-                'message' => $this->reminder->message,
-            ]
+            // data: [
+            //     'id' => $this->reminder->id,
+            //     'title' => $this->reminder->title,
+            //     'message' => $this->reminder->message,
+            // ]
+            fcmToken: $this->user->fcm_token
         );
     }
 }

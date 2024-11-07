@@ -244,7 +244,7 @@ class UserController extends Controller
 
         $message = $request->message ?? 'This is a test notification';
         
-        $res = FcmHelper::send(
+        $res = FcmHelper::sendWithFcm(
             title: 'Test Notification',
             bodyMessage: $message,
             type: 'notification',
