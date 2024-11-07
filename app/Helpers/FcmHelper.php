@@ -8,7 +8,7 @@ use Kreait\Firebase\Messaging\CloudMessage;
 class FcmHelper
 {
     public static function send(
-        string $topic,
+        string $topic = '',
         string $title,
         string $bodyMessage,
         string $type = '',
@@ -25,7 +25,7 @@ class FcmHelper
         }
 
         $body = [
-            'topic' => $topic,
+            // 'topic' => $topic,
             'data' => [
                 'title' => $title,
                 'body' => $bodyMessage,
@@ -38,6 +38,10 @@ class FcmHelper
                 'body' => $bodyMessage,
             ],
         ];
+
+        if (!empty($topic)) {
+            $body['topic'] = $topic;
+        }
 
         if (!empty($notification)) {
             $body['notification'] = array_merge($body['notification'], $notification);
