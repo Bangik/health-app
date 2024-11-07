@@ -49,7 +49,7 @@ class ReminderController extends Controller
         Reminder::create($request->all());
 
         Alert::success('Success', 'Reminder created successfully');
-        return redirect()->route('admin.reminder.index', ['id' => auth()->user()->id]);
+        return redirect()->route('admin.reminder.index', ['id' => $id]);
     }
 
     public function getById($id)
