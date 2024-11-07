@@ -25,13 +25,13 @@ class Reminder extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        return \Carbon\Carbon::parse($value)->timezone('Asia/Jakarta')->format('Y-m-d H:i:s');
-    }
+    // public function getCreatedAtAttribute($value)
+    // {
+    //     return \Carbon\Carbon::parse($value)->timezone('Asia/Jakarta')->format('Y-m-d H:i:s');
+    // }
 
-    public function getUpdatedAtAttribute($value)
-    {
-        return \Carbon\Carbon::parse($value)->timezone('Asia/Jakarta')->format('Y-m-d H:i:s');
-    }
+    // public function getUpdatedAtAttribute($value)
+    // {
+    //     return \Carbon\Carbon::parse($value)->timezone('Asia/Jakarta')->format('Y-m-d H:i:s');
+    // }
 }
