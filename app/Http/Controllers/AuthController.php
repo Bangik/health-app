@@ -123,7 +123,11 @@ class AuthController extends Controller
             return response()->json($response->toArray(), 401);
         }
 
-        User::where('username', $request->username)->update(['fcm_token' => $request->fcm_token ?? null, 'token' => $token]);
+        User::where('username', $request->username)->update(['token' => $token]);
+
+        if ($request->fcm_token) {
+            User::where('username', $request->username)->update(['fcm_token' => $request->fcm_token]);
+        }
 
         return $this->respondWithToken($token, auth()->user());
     }

@@ -229,7 +229,7 @@ class UserController extends Controller
             'message' => 'string',
         ]);
 
-        $fcmToken = auth()->user()->fcm_token;
+        $fcmToken = auth()->user()->fcm_token ?? '';
 
         if ($validation->fails()) {
             $response = new ResponseApiDto(
