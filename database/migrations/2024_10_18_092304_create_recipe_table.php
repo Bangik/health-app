@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('sugar')->nullable();
             $table->integer('cholesterol')->nullable();
             $table->integer('mass')->nullable();
+            $table->integer('mass')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

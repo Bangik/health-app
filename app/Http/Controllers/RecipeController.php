@@ -24,13 +24,13 @@ class RecipeController extends Controller
             'description'  => 'required|string|max:255',
             'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
             'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|numeric',
-            'protein'      => 'nullable|numeric',
-            'fat'          => 'nullable|numeric',
-            'carbohydrate' => 'nullable|numeric',
-            'sugar'        => 'nullable|numeric',
-            'cholesterol'  => 'nullable|numeric',
-            'mass'         => 'nullable|numeric',
+            'calories'     => 'nullable|decimal:1,10',
+            'protein'      => 'nullable|decimal:1,10',
+            'fat'          => 'nullable|decimal:1,10',
+            'carbohydrate' => 'nullable|decimal:1,10',
+            'sugar'        => 'nullable|decimal:1,10',
+            'potassium'  => 'nullable|decimal:1,10',
+            'mass'         => 'nullable|decimal:1,10',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -50,7 +50,7 @@ class RecipeController extends Controller
             'fat'          => $request->fat,
             'carbohydrate' => $request->carbohydrate,
             'sugar'        => $request->sugar,
-            'cholesterol'  => $request->cholesterol,
+            'potassium'  => $request->potassium,
             'mass'         => $request->mass,
             'image'        => $request->hasFile('image') ? $request->file('image')->store('images/recipe', 'public') : null,
         ]);
@@ -66,13 +66,13 @@ class RecipeController extends Controller
             'description'  => 'required|string|max:255',
             'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
             'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|numeric',
-            'protein'      => 'nullable|numeric',
-            'fat'          => 'nullable|numeric',
-            'carbohydrate' => 'nullable|numeric',
-            'sugar'        => 'nullable|numeric',
-            'cholesterol'  => 'nullable|numeric',
-            'mass'         => 'nullable|numeric',
+            'calories'     => 'nullable|decimal:1,10',
+            'protein'      => 'nullable|decimal:1,10',
+            'fat'          => 'nullable|decimal:1,10',
+            'carbohydrate' => 'nullable|decimal:1,10',
+            'sugar'        => 'nullable|decimal:1,10',
+            'potassium'    => 'nullable|decimal:1,10',
+            'mass'         => 'nullable|decimal:1,10',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -100,7 +100,7 @@ class RecipeController extends Controller
             'fat'          => $request->fat,
             'carbohydrate' => $request->carbohydrate,
             'sugar'        => $request->sugar,
-            'cholesterol'  => $request->cholesterol,
+            'potassium'  => $request->potassium,
             'mass'         => $request->mass,
             'image'        => $request->hasFile('image') ? $request->file('image')->store('images/recipe', 'public') : $recipe->image,
         ]);
@@ -171,13 +171,13 @@ class RecipeController extends Controller
             'description'  => 'required|string|max:255',
             'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
             'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|numeric',
-            'protein'      => 'nullable|numeric',
-            'fat'          => 'nullable|numeric',
-            'carbohydrate' => 'nullable|numeric',
-            'sugar'        => 'nullable|numeric',
-            'cholesterol'  => 'nullable|numeric',
-            'mass'         => 'nullable|numeric',
+            'calories'     => 'nullable|decimal:1,10',
+            'protein'      => 'nullable|decimal:1,10',
+            'fat'          => 'nullable|decimal:1,10',
+            'carbohydrate' => 'nullable|decimal:1,10',
+            'sugar'        => 'nullable|decimal:1,10',
+            'potassium'    => 'nullable|decimal:1,10',
+            'mass'         => 'nullable|decimal:1,10',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -201,7 +201,7 @@ class RecipeController extends Controller
             'fat'          => $request->fat,
             'carbohydrate' => $request->carbohydrate,
             'sugar'        => $request->sugar,
-            'cholesterol'  => $request->cholesterol,
+            'potassium'    => $request->potassium,
             'mass'         => $request->mass,
             'image'        => $request->hasFile('image') ? $request->file('image')->store('images/recipe', 'public') : null,
         ]);
@@ -234,13 +234,13 @@ class RecipeController extends Controller
             'description'  => 'required|string|max:255',
             'food_type'    => 'required|in:breakfast,lunch,dinner,snack', // Restricting to the enum values
             'portion'      => 'nullable|string|max:255',
-            'calories'     => 'nullable|numeric',
-            'protein'      => 'nullable|numeric',
-            'fat'          => 'nullable|numeric',
-            'carbohydrate' => 'nullable|numeric',
-            'sugar'        => 'nullable|numeric',
-            'cholesterol'  => 'nullable|numeric',
-            'mass'         => 'nullable|numeric',
+            'calories'     => 'nullable|decimal:1,10',
+            'protein'      => 'nullable|decimal:1,10',
+            'fat'          => 'nullable|decimal:1,10',
+            'carbohydrate' => 'nullable|decimal:1,10',
+            'sugar'        => 'nullable|decimal:1,10',
+            'potassium'    => 'nullable|decimal:1,10',
+            'mass'         => 'nullable|decimal:1,10',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -271,7 +271,7 @@ class RecipeController extends Controller
             'fat'          => $request->fat,
             'carbohydrate' => $request->carbohydrate,
             'sugar'        => $request->sugar,
-            'cholesterol'  => $request->cholesterol,
+            'potassium'    => $request->potassium,
             'mass'         => $request->mass,
             'image'        => $request->hasFile('image') ? $request->file('image')->store('images/recipe', 'public') : $recipe->image,
         ]);

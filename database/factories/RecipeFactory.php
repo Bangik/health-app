@@ -28,7 +28,7 @@ class RecipeFactory extends Factory
             'fat' => $this->faker->numberBetween(1, 50),
             'carbohydrate' => $this->faker->numberBetween(1, 200),
             'sugar' => $this->faker->numberBetween(1, 100),
-            'cholesterol' => $this->faker->numberBetween(1, 100),
+            'potassium' => $this->faker->numberBetween(1, 100),
             'mass' => $this->faker->numberBetween(50, 500),
             'image' => 'default.jpg',
         ];

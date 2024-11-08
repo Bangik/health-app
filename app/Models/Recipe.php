@@ -19,7 +19,7 @@ class Recipe extends Model
         'fat',
         'carbohydrate',
         'sugar',
-        'cholesterol',
+        'potassium',
         'mass',
         'image',
     ];

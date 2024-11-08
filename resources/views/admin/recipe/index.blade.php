@@ -111,7 +111,7 @@
                                             <li>Lemak: {{ $recipe->fat }}</li>
                                             <li>Karbohidrat: {{ $recipe->carbohydrate }}</li>
                                             <li>Gula: {{ $recipe->sugar }}</li>
-                                            <li>Kolestrol: {{ $recipe->cholesterol }}</li>
+                                            <li>Kalium: {{ $recipe->potassium }}</li>
                                             <li>Massa: {{ $recipe->mass }}</li>
                                         </ul>
                                     </td>
@@ -299,11 +299,11 @@
                             placeholder="Ketik gula" value="{{ $recipe->sugar }}" required="">
                     </div>
                     <div>
-                        <label for="cholesterol-update"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kolestrol</label>
-                        <input type="text" name="cholesterol" id="cholesterol-update"
+                        <label for="potassium-update"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kalium</label>
+                        <input type="text" name="potassium" id="potassium-update"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Ketik kolestrol" value="{{ $recipe->cholesterol }}" required="">
+                            placeholder="Ketik kolestrol" value="{{ $recipe->potassium }}" required="">
                     </div>
                     <div>
                         <label for="mass-update"
@@ -472,9 +472,9 @@
                         placeholder="Ketik gula" required="">
                 </div>
                 <div>
-                    <label for="cholesterol-create"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kolestrol</label>
-                    <input type="text" name="cholesterol" id="cholesterol-create"
+                    <label for="potassium-create"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kalium</label>
+                    <input type="text" name="potassium" id="potassium-create"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         placeholder="Ketik kolestrol" required="">
                 </div>
