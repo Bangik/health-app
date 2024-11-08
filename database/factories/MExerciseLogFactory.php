@@ -19,7 +19,7 @@ class MExerciseLogFactory extends Factory
             'description' => $this->faker->sentence,
             'duration' => $this->faker->numberBetween(10, 120),
             'calories' => $this->faker->numberBetween(100, 1000),
-            'distance' => $this->faker->randomFloat(2, 0.5, 10),
+            'distance' => $this->faker->numberBetween(100, 1000),
         ];
     }
 }
