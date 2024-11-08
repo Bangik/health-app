@@ -36,7 +36,7 @@ class SendNotificationFcmCommand extends Command
         ])
         ->where('status', 'pending')
         ->whereDate('reminder_date', Carbon::now()->toDateString())
-        ->whereBetween('reminder_time', [Carbon::now()->subMinute()->toTimeString(), Carbon::now()->addMinute()->toTimeString()])
+        ->whereBetween('reminder_time', [Carbon::now()->toTimeString(), Carbon::now()->addMinute()->toTimeString()])
         ->get();
         // ->each(function ($reminder) {
         //     dispatch(new SendNotificationFcmJob($reminder, $reminder->user));
