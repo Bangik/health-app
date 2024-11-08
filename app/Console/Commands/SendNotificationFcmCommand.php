@@ -29,10 +29,14 @@ class SendNotificationFcmCommand extends Command
      */
     public function handle()
     {
-        $reminders = Reminder::with('user')
+        $reminders = Reminder::with([
+            'user' => function ($query) {
+                $query->whereNotNull('fcm_token');
+            }
+        ])
         ->where('status', 'pending')
         ->whereDate('reminder_date', Carbon::now()->toDateString())
-        ->whereTime('reminder_time', '>=', Carbon::now()->toTimeString())
+        ->whereBetween('reminder_time', [Carbon::now()->subMinute()->toTimeString(), Carbon::now()->addMinute()->toTimeString()])
         ->get();
         // ->each(function ($reminder) {
         //     dispatch(new SendNotificationFcmJob($reminder, $reminder->user));
