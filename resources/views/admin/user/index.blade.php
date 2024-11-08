@@ -402,7 +402,7 @@
                 @csrf
                 <input type="hidden" name="receiver_id" value="{{ $user->id }}">
                 <input type="hidden" name="sender_id" value="{{ Auth::user()->id }}">
-                <div class="flex justify-center w-full pb-4 mt-4 space-x-4 sm:absolute sm:px-4 sm:mt-0 bottom-0 left-0">
+                <div class="flex justify-center w-full pb-4 mt-4 space-x-4 bottom-0 left-0">
                     <input type="text" name="content"
                         class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         placeholder="Ketik pesan" required="">

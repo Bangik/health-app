@@ -76,26 +76,30 @@ class FcmHelper
         string $fcmToken = '',
     ) {
 
-        $data = [
-            'title' => $title,
-            'body' => $bodyMessage,
-            'type' => $type,
-            'is_ios' => 1,
-            'is_android' => 1
-        ];
-
-        $notification = [
-            'title' => $title,
-            'body' => $bodyMessage,
-        ];
-
-        $message = CloudMessage::withTarget('token', $fcmToken)
-            ->withNotification($notification) // optional
-            ->withData($data) // optional
-        ;
-
-        $fcm = self::init();
-        return $fcm->send($message);
+        try {
+            $data = [
+                'title' => $title,
+                'body' => $bodyMessage,
+                'type' => $type,
+                'is_ios' => 1,
+                'is_android' => 1
+            ];
+    
+            $notification = [
+                'title' => $title,
+                'body' => $bodyMessage,
+            ];
+    
+            $message = CloudMessage::withTarget('token', $fcmToken)
+                ->withNotification($notification) // optional
+                ->withData($data) // optional
+            ;
+    
+            $fcm = self::init();
+            return $fcm->send($message);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public static function init()

@@ -118,7 +118,7 @@ class UserController extends Controller
 
         $content = $request->content;
 
-        $message = Message::create([
+        Message::create([
             'sender_id' => $request->sender_id,
             'receiver_id' => $request->receiver_id,
             'content' => $content,
