@@ -124,18 +124,16 @@ class UserController extends Controller
             'content' => $content,
         ]);
 
-        FcmHelper::send(
-            topic: 'notification',
-            title: 'New Message',
-            bodyMessage: $message,
-            type: 'notification',
-            data: [
-                'message_id' => $message->id,
-                'sender_id' => $request->sender_id,
-                'receiver_id' => $request->receiver_id,
-                'content' => $content,
-            ]
-        );
+        $fcmToken = User::find($request->receiver_id)->fcm_token;
+
+        if ($fcmToken) {
+            FcmHelper::sendWithFcm(
+                title: 'New Message',
+                bodyMessage: $message,
+                type: 'notification',
+                fcmToken: $request->fcm_token
+            );
+        }
 
         Alert::success('Success', 'Message sent successfully');
         return redirect()->route('admin.user.index');

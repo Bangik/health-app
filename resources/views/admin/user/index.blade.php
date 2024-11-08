@@ -389,7 +389,7 @@
                         class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 dark:bg-gray-700 {{ $message->sender_id == Auth::user()->id ? 'rounded-s-xl rounded-se-xl' : 'rounded-e-xl rounded-es-xl' }}">
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                             <span
-                                class="text-sm font-semibold text-gray-900 dark:text-white">{{ $message->receiver->name }}
+                                class="text-sm font-semibold text-gray-900 dark:text-white">{{ $message->sender->name }}
                                 <span
                                     class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->created_at }}</span>
                         </div>
