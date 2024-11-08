@@ -129,7 +129,7 @@ class UserController extends Controller
         if ($fcmToken) {
             FcmHelper::sendWithFcm(
                 title: 'New Message',
-                bodyMessage: $message,
+                bodyMessage: $content,
                 type: 'notification',
                 fcmToken: $fcmToken
             );
