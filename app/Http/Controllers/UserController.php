@@ -131,7 +131,7 @@ class UserController extends Controller
                 title: 'New Message',
                 bodyMessage: $message,
                 type: 'notification',
-                fcmToken: $request->fcm_token
+                fcmToken: $fcmToken
             );
         }
 
