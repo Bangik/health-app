@@ -185,6 +185,12 @@ class UserController extends Controller
         return response()->json($response->toArray(), 200);
     }
 
+    public function summaries($id)
+    {
+        
+        return view('admin.user.summary', compact('id'));
+    }
+
     public function sendTestNotif(Request $request)
     {
         $validation = Validator::make($request->all(), [

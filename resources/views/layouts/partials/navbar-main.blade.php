@@ -17,9 +17,9 @@
                             clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <a href="https://flowbite-admin-dashboard.vercel.app/" class="flex ml-2 md:mr-24">
-                    <img src="https://flowbite-admin-dashboard.vercel.app/images/logo.svg" class="h-8 mr-3"
-                        alt="FlowBite Logo" />
+                <a href="{{ route('admin.dashboard') }}" class="flex ml-2 md:mr-24">
+                    <img src="{{ asset('images/undraw_medical_care_movn.svg') }}" class="h-8 mr-3"
+                        alt="Health App" />
                     <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Health
                         App</span>
                 </a>

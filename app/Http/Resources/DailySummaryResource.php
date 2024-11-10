@@ -15,20 +15,44 @@ class DailySummaryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $foodTypeIdn = [
+            'breakfast' => 'Sarapan',
+            'lunch' => 'Makan Siang',
+            'dinner' => 'Makan Malam',
+            'snack' => 'Makanan Ringan',
+        ];
+
         $foodLogs = [];
-        $foodIntakes = $this->foodIntakes?->map(function ($foodIntake) {
-            return [
-                'food_name' => $foodIntake?->recipe?->food_type . ': ' . $foodIntake?->recipe?->food_name,
-                'calories' => (int)$foodIntake->recipe?->calories,
-            ];
-        });
+        $foodIntakes = $this->foodIntakes
+            ?->groupBy(fn($foodIntake) => $foodIntake?->recipe?->food_type)
+            ->map(function ($group, $foodType) use ($foodTypeIdn) {
+                $foodNames = $group->pluck('recipe.food_name')->unique()->implode(', ');
+                $totalCalories = $group->sum(fn($item) => (int) $item->recipe?->calories);
+
+                return [
+                    'food_name' => $foodTypeIdn[$foodType] . ': ' . $foodNames,
+                    'calories' => $totalCalories,
+                ];
+            })
+            ->values();
 
         $foodLogs = [
-            'total_calories' => $foodIntakes?->sum('calories') . ' kcal',
+            'total_calories' => $foodIntakes->sum('calories') . ' kcal',
             'foods' => $foodIntakes,
         ];
 
-        $drinklogs = $this->drinklogs?->sum('amount') . ' ml (' . $this->drinklogs?->count() . ' kali minum)';
+        $drinkLogs = [];
+        $drinklog = $this->drinkLogs?->map(function ($drinkLog) {
+            return [
+                'drink_name' => $drinkLog->drink_name . ': ' . $drinkLog->amount . ' ml',
+                'amounts' => (int) $drinkLog->amount,
+            ];
+        });
+
+        $drinkLogs = [
+            'total_amount' => $drinklog->sum('amounts') . ' ml',
+            'drinks' => $drinklog,
+        ];
 
         $exerciseLogs = $this->exerciseLogs?->map(function ($exerciseLog) {
             return [
@@ -58,7 +82,7 @@ class DailySummaryResource extends JsonResource
 
         return [
             'food_logs' => $foodLogs,
-            'drinklogs' => $drinklogs,
+            'drinklogs' => $drinkLogs,
             'exercise_logs' => $exerciseLogs,
             'blood_pressure' => $bloodPleasure,
             'medicine_logs' => $medicineLogs,
