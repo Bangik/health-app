@@ -46,5 +46,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('/reminder/{id}', [ReminderController::class, 'index'])->name('admin.reminder.index');
         Route::post('/reminder/{id}', [ReminderController::class, 'storeWeb'])->name('admin.reminder.storeWeb');
+
+        Route::get('/summary-user/{id}', [UserController::class, 'summaries'])->name('admin.user.summaries');
     });
 });

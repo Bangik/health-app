@@ -185,12 +185,34 @@ class UserController extends Controller
         return response()->json($response->toArray(), 200);
     }
 
-    public function summaries($id)
+    public function summaries(Request $request, $id)
     {
-        
-        return view('admin.user.summary', compact('id'));
-    }
 
+        $dates = [];
+        $firstDate = null;
+        $lastDate = null;
+
+        if ($request->first_date && $request->last_date) {
+            $firstDate = Carbon::parse($request->first_date);
+            $lastDate = Carbon::parse($request->last_date);
+
+            for ($date = $firstDate; $date->lte($lastDate); $date->addDay()) {
+                $dates[$date->format('Y-m-d')] = SummaryHelper::getSummary($date->format('Y-m-d'), $id);
+            }
+
+            // format date to yyyy-mm-dd
+            $firstDate = $firstDate->format('Y-m-d');
+            $lastDate = $lastDate->format('Y-m-d');
+        } else {
+            for ($i = 0; $i < 14; $i++) {
+                $date = Carbon::now()->subDays($i)->format('Y-m-d');
+                $dates[$date] = SummaryHelper::getSummary($date, $id);
+            }
+        }
+
+        return view('admin.user.summary', compact('id', 'dates', 'firstDate', 'lastDate'));
+    }
+    
     public function sendTestNotif(Request $request)
     {
         $validation = Validator::make($request->all(), [

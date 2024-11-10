@@ -6,7 +6,11 @@ use App\Http\Resources\DailySummaryResource;
 use App\Models\User;
 
 class SummaryHelper {
-    public static function getSummary($date) {
+    public static function getSummary($date, $userId = null) {
+        if ($userId === null) {
+            $userId = auth()->user()->id;
+        }
+
         $summary = User::with([
             'foodIntakes' => function ($query) use ($date) {
                 $query->with('recipe')->whereDate('created_at', $date);
@@ -24,7 +28,7 @@ class SummaryHelper {
                 $query->with('medicine')->whereDate('created_at', $date);
             },
         ])
-        ->where('id', auth()->user()->id)
+        ->where('id', $userId)
         ->first();
 
         return new DailySummaryResource($summary);

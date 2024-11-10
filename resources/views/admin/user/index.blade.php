@@ -105,6 +105,18 @@
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $user->gender }}</td>
                                     <td class="p-4 space-x-2 whitespace-nowrap">
+                                        <a href="{{ route('admin.user.summaries', $user->id) }}"
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z" />
+                                            </svg>
+
+
+                                            Log
+                                        </a>
                                         <a href="{{ route('admin.reminder.index', $user->id) }}"
                                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                             <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
@@ -388,8 +400,7 @@
                     <div
                         class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 dark:bg-gray-700 {{ $message->sender_id == Auth::user()->id ? 'rounded-s-xl rounded-se-xl' : 'rounded-e-xl rounded-es-xl' }}">
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span
-                                class="text-sm font-semibold text-gray-900 dark:text-white">{{ $message->sender->name }}
+                            <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ $message->sender->name }}
                                 <span
                                     class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $message->created_at }}</span>
                         </div>
