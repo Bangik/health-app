@@ -47,7 +47,8 @@ Route::get('recipes', [RecipeController::class, 'getRecipes']);
 Route::get('recipes/{id}', [RecipeController::class, 'getRecipeById']);
 
 Route::get('test-notif', [UserController::class, 'sendTestNotif']);
-Route::get('failed-job', [JobController::class, 'index']);
+Route::get('job', [JobController::class, 'index']);
+Route::get('job/failed', [JobController::class, 'failedJob']);
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::post('logout', [AuthController::class, 'logout']);
