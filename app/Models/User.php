@@ -119,6 +119,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(MedicineLog::class, 'user_id', 'id');
     }
 
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'user_id', 'id');
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return \Carbon\Carbon::parse($value)->timezone('Asia/Jakarta')->format('Y-m-d H:i:s');

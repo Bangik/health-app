@@ -27,6 +27,9 @@ class SummaryHelper {
             'medicineLogs' => function ($query) use ($date) {
                 $query->with('medicine')->whereDate('created_at', $date);
             },
+            'notes' => function ($query) use ($date) {
+                $query->whereDate('created_at', $date);
+            },
         ])
         ->where('id', $userId)
         ->first();

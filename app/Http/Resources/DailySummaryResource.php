@@ -80,12 +80,21 @@ class DailySummaryResource extends JsonResource
             ];
         });
 
+        $notes = $this->notes?->map(function ($note) {
+            return [
+                'title' => $note->title,
+                'content' => $note->content,
+                'created_at' => Carbon::parse($note->created_at)->format('H:i:s'),
+            ];
+        });
+
         return [
             'food_logs' => $foodLogs,
             'drinklogs' => $drinkLogs,
             'exercise_logs' => $exerciseLogs,
             'blood_pressure' => $bloodPleasure,
             'medicine_logs' => $medicineLogs,
+            'notes' => $notes,
         ];
     }
 }
