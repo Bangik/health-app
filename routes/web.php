@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\RecipeController;
@@ -48,5 +49,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/reminder/{id}', [ReminderController::class, 'storeWeb'])->name('admin.reminder.storeWeb');
 
         Route::get('/summary-user/{id}', [UserController::class, 'summaries'])->name('admin.user.summaries');
+
+        Route::get('/exercise', [ExerciseController::class, 'index'])->name('admin.exercise.index');
+        Route::post('/exercise', [ExerciseController::class, 'store'])->name('admin.exercise.store');
+        Route::put('/exercise/{exercise}', [ExerciseController::class, 'update'])->name('admin.exercise.update');
+        Route::delete('/exercise/{exercise}', [ExerciseController::class, 'destroy'])->name('admin.exercise.destroy');
     });
 });
