@@ -290,4 +290,35 @@ class UserController extends Controller
 
         return response()->json($response->toArray(), 200);
     }
+
+    public function updateFcmToken(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'fcm_token' => 'required|string',
+        ]);
+
+        if ($validation->fails()) {
+            $response = new ResponseApiDto(
+                status: false,
+                code: 400,
+                message: 'Validation error',
+                data: $validation->errors()
+            );
+
+            return response()->json($response->toArray(), 400);
+        }
+
+        $user = auth()->user();
+        $user->fcm_token = $request->fcm_token;
+        $user->save();
+
+        $response = new ResponseApiDto(
+            status: true,
+            code: 200,
+            message: 'Success update FCM token',
+            data: $user
+        );
+
+        return response()->json($response->toArray(), 200);
+    }
 }

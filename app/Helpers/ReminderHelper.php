@@ -82,7 +82,7 @@ class ReminderHelper {
         'message' => 'Waktunya membaca artikel, jangan lupa membaca artikel ya!',
         'reminder_date' => now()->addDays($i),
         'reminder_time' => '08:00',
-        'type' => 'breakfast',
+        'type' => 'reading',
         'status' => 'pending',
     ]);
 
@@ -92,7 +92,7 @@ class ReminderHelper {
         'message' => 'Waktunya membaca artikel, jangan lupa membaca artikel ya!',
         'reminder_date' => now()->addDays($i),
         'reminder_time' => '12:00',
-        'type' => 'lunch',
+        'type' => 'reading',
         'status' => 'pending',
     ]);
 
@@ -102,7 +102,7 @@ class ReminderHelper {
         'message' => 'Waktunya membaca artikel, jangan lupa membaca artikel ya!',
         'reminder_date' => now()->addDays($i),
         'reminder_time' => '19:00',
-        'type' => 'dinner',
+        'type' => 'reading',
         'status' => 'pending',
     ]);
   }
