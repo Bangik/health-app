@@ -11,7 +11,7 @@ class ReminderHelper {
         'title' => 'Sarapan',
         'message' => 'Waktunya sarapan, jangan lupa makan pagi ya!',
         'reminder_date' => now()->addDays($i),
-        'reminder_time' => '22:38',
+        'reminder_time' => '07:00',
         'type' => 'breakfast',
         'status' => 'pending',
     ]);
@@ -21,7 +21,7 @@ class ReminderHelper {
         'title' => 'Makan Siang',
         'message' => 'Waktunya makan siang, jangan lupa makan siang ya!',
         'reminder_date' => now()->addDays($i),
-        'reminder_time' => '22:38',
+        'reminder_time' => '12:00',
         'type' => 'lunch',
         'status' => 'pending',
     ]);
@@ -91,7 +91,7 @@ class ReminderHelper {
         'title' => 'Membaca Artikel',
         'message' => 'Waktunya membaca artikel, jangan lupa membaca artikel ya!',
         'reminder_date' => now()->addDays($i),
-        'reminder_time' => '22:38',
+        'reminder_time' => '12:00',
         'type' => 'reading',
         'status' => 'pending',
     ]);
