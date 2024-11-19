@@ -58,7 +58,7 @@ class SendNotificationFcmCommand extends Command
 
         if (!$reminders->isEmpty() || $reminders->count() !== 0) {
             foreach ($reminders as $reminder) {
-                if ($reminder->user->fcm_token === null) {
+                if ($reminder?->user?->fcm_token === null) {
                     $this->info('User ' . $reminder->user->name . ' does not have FCM token.');
                     Log::info('User ' . $reminder->user->name . ' does not have FCM token.');
                     continue;
