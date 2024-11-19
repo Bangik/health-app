@@ -54,5 +54,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/exercise', [ExerciseController::class, 'store'])->name('admin.exercise.store');
         Route::put('/exercise/{exercise}', [ExerciseController::class, 'update'])->name('admin.exercise.update');
         Route::delete('/exercise/{exercise}', [ExerciseController::class, 'destroy'])->name('admin.exercise.destroy');
+
+        Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
     });
 });

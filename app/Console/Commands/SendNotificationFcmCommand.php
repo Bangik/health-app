@@ -7,6 +7,7 @@ use App\Jobs\SendNotificationFcmJob;
 use App\Models\Reminder;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class SendNotificationFcmCommand extends Command
 {
@@ -59,16 +60,19 @@ class SendNotificationFcmCommand extends Command
             foreach ($reminders as $reminder) {
                 if ($reminder->user->fcm_token === null) {
                     $this->info('User ' . $reminder->user->name . ' does not have FCM token.');
+                    Log::info('User ' . $reminder->user->name . ' does not have FCM token.');
                     continue;
                 } else {
                     dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->addSeconds(3));
                     $reminder->update(['status' => 'completed']);
                     $this->info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.');
+                    Log::info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.');
                     sleep(3);
                 }
             }
         }
 
         $this->info('Send notification FCM command successfully.');
+        Log::info('Send notification FCM command successfully.', ['date' => Carbon::now()->toDateTimeString(), 'reminders' => $reminders]);
     }
 }
