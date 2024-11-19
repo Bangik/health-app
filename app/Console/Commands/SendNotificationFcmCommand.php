@@ -59,20 +59,20 @@ class SendNotificationFcmCommand extends Command
         if (!$reminders->isEmpty() || $reminders->count() !== 0) {
             foreach ($reminders as $reminder) {
                 if ($reminder?->user?->fcm_token === null) {
-                    $this->info('User ' . $reminder->user->name . ' does not have FCM token.');
-                    Log::info('User ' . $reminder->user->name . ' does not have FCM token.');
+                    $this->info('User ' . $reminder?->user?->name . ' does not have FCM token.');
+                    Log::info('User ' . $reminder?->user?->name . ' does not have FCM token.', ['date' => Carbon::now()->toDateTimeString(), 'reminder' => $reminder, 'user' => $reminder->user]);
                     continue;
                 } else {
                     dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->addSeconds(3));
                     $reminder->update(['status' => 'completed']);
                     $this->info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.');
-                    Log::info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.', ['date' => Carbon::now()->toDateTimeString(), 'reminder' => $reminder]);
+                    Log::info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.', ['date' => Carbon::now()->toDateTimeString(), 'reminder' => $reminder, 'user' => $reminder->user]);
                     sleep(3);
                 }
             }
         }
 
         $this->info('Send notification FCM command successfully.');
-        Log::info('Send notification FCM command successfully.', ['date' => Carbon::now()->toDateTimeString(), 'reminders' => $reminders]);
+        Log::info('Send notification FCM command successfully.', ['date' => Carbon::now()->toDateTimeString(), 'reminders' => $reminders, 'count_reminder' => $reminders->count()]);
     }
 }
