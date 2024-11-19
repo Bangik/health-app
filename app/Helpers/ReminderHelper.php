@@ -11,7 +11,7 @@ class ReminderHelper {
         'title' => 'Sarapan',
         'message' => 'Waktunya sarapan, jangan lupa makan pagi ya!',
         'reminder_date' => now()->addDays($i),
-        'reminder_time' => '07:00',
+        'reminder_time' => '22:32',
         'type' => 'breakfast',
         'status' => 'pending',
     ]);
