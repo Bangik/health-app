@@ -12,7 +12,7 @@ class MUserSeeder extends Seeder
         // Create 1 admin
         User::factory()->admin()->create([
             'username' => 'admin', // Set a specific username for the admin
-            'password' => bcrypt('admin123'), // Set a specific password for the admin
+            'password' => bcrypt('Admin123!!'), // Set a specific password for the admin
         ]);
 
         // Create 10 users

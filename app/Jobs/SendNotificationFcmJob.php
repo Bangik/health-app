@@ -9,6 +9,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class SendNotificationFcmJob implements ShouldQueue
 {
@@ -27,23 +28,47 @@ class SendNotificationFcmJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $response = FcmHelper::sendWithFcm(
-            // topic: 'reminder-' . $this->user->id,
-            title: $this->reminder->title,
-            bodyMessage: $this->reminder->message,
-            type: 'notification',
-            // data: [
-            //     'id' => $this->reminder->id,
-            //     'title' => $this->reminder->title,
-            //     'message' => $this->reminder->message,
-            // ]
-            fcmToken: $this->user->fcm_token
-        );
+        if (empty($this->user->fcm_token)) {
+            Log::info('SendNotificationFcmJob', [
+                'message' => 'User fcm token is empty',
+                'reminder' => $this->reminder,
+                'user' => $this->user,
+            ]);
+            return;
+        }
 
-        Log::info('SendNotificationFcmJob', [
-            'response' => $response,
-            'reminder' => $this->reminder,
-            'user' => $this->user,
-        ]);
+        try {
+            DB::beginTransaction();
+            $response = FcmHelper::sendWithFcm(
+                // topic: 'reminder-' . $this->user->id,
+                title: $this->reminder->title,
+                bodyMessage: $this->reminder->message,
+                type: 'notification',
+                // data: [
+                //     'id' => $this->reminder->id,
+                //     'title' => $this->reminder->title,
+                //     'message' => $this->reminder->message,
+                // ]
+                fcmToken: $this->user->fcm_token
+            );
+
+            $this->reminder->update([
+                'status' => 'completed',
+            ]);
+    
+            Log::info('SendNotificationFcmJob', [
+                'response' => $response,
+                'reminder' => $this->reminder,
+                'user' => $this->user,
+            ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('SendNotificationFcmJob', [
+                'message' => $e->getMessage(),
+                'reminder' => $this->reminder,
+                'user' => $this->user,
+            ]);
+        }
     }
 }

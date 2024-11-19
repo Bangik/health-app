@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\ResponseApiDto;
 use App\Helpers\ReminderHelper;
+use App\Jobs\SendNotificationFcmJob;
 use App\Models\Medicine;
 use App\Models\MExercise;
 use App\Models\Reminder;
@@ -65,7 +66,7 @@ class AuthController extends Controller
             Medicine::create(['name' => $request->medicine_name]);
             $time = ['08:00', '13:00', '20:00'];
             for ($i = 0; $i < 21; $i++) {
-                Reminder::create([
+                $reminder1 = Reminder::create([
                     'user_id' => $user->id,
                     'title' => $exercise->exercise_name ?? 'Latihan',
                     'message' => 'Waktunya latihan',
@@ -75,11 +76,14 @@ class AuthController extends Controller
                     'status' => 'pending',
                 ]);
 
+                $exerciseTime = explode(':', $request->exercise_time_schedule);
+                dispatch(new SendNotificationFcmJob($reminder1, $user))->delay(now()->addDays($i)->setTime($exerciseTime[0], $exerciseTime[1]));
+
                 ReminderHelper::storeReminderDefault($user->id, $i);
 
                 if ($request->medicine_name && $request->medicine_count) {
                     for ($j = 0; $j < $request->medicine_count; $j++) {
-                        Reminder::create([
+                        $reminder = Reminder::create([
                             'user_id' => $user->id,
                             'title' => $request->medicine_name,
                             'message' => 'Waktunya minum obat',
@@ -88,6 +92,8 @@ class AuthController extends Controller
                             'type' => 'medicine',
                             'status' => 'pending',
                         ]);
+
+                        dispatch(new SendNotificationFcmJob($reminder, $user))->delay(now()->addDays($i)->setTime(explode(':', $time[$j])[0], explode(':', $time[$j])[1]));
                     }
                 }
             }

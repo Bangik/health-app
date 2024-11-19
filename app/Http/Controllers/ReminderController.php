@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\ResponseApiDto;
+use App\Jobs\SendNotificationFcmJob;
 use App\Models\Reminder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -46,7 +47,10 @@ class ReminderController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        Reminder::create($request->all());
+        $reminder = Reminder::create($request->all());
+        $reminderTimeExplode = explode(':', $reminder->reminder_time);
+
+        dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->setTime($reminderTimeExplode[0], $reminderTimeExplode[1]));
 
         Alert::success('Success', 'Reminder created successfully');
         return redirect()->route('admin.reminder.index', ['id' => $id]);
@@ -101,6 +105,9 @@ class ReminderController extends Controller
         }
 
         $reminder = Reminder::create($request->all());
+        $reminderTimeExplode = explode(':', $reminder->reminder_time);
+
+        dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->setTime($reminderTimeExplode[0], $reminderTimeExplode[1]));
 
         $response = new ResponseApiDto(
             status: true,
@@ -147,6 +154,9 @@ class ReminderController extends Controller
         }
 
         $reminder->update($request->all());
+        $reminderTimeExplode = explode(':', $reminder->reminder_time);
+
+        dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->setTime($reminderTimeExplode[0], $reminderTimeExplode[1]));
 
         $response = new ResponseApiDto(
             status: true,
