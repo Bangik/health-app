@@ -66,7 +66,7 @@ class SendNotificationFcmCommand extends Command
                     dispatch(new SendNotificationFcmJob($reminder, $reminder->user))->delay(now()->addSeconds(3));
                     $reminder->update(['status' => 'completed']);
                     $this->info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.');
-                    Log::info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.');
+                    Log::info('Send notification FCM command for reminder title ' . $reminder->title . ' successfully.', ['date' => Carbon::now()->toDateTimeString(), 'reminder' => $reminder]);
                     sleep(3);
                 }
             }

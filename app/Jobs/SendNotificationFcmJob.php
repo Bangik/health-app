@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class SendNotificationFcmJob implements ShouldQueue
 {
@@ -26,7 +27,7 @@ class SendNotificationFcmJob implements ShouldQueue
      */
     public function handle(): void
     {
-        FcmHelper::sendWithFcm(
+        $response = FcmHelper::sendWithFcm(
             // topic: 'reminder-' . $this->user->id,
             title: $this->reminder->title,
             bodyMessage: $this->reminder->message,
@@ -38,5 +39,11 @@ class SendNotificationFcmJob implements ShouldQueue
             // ]
             fcmToken: $this->user->fcm_token
         );
+
+        Log::info('SendNotificationFcmJob', [
+            'response' => $response,
+            'reminder' => $this->reminder,
+            'user' => $this->user,
+        ]);
     }
 }
