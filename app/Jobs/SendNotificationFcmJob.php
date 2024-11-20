@@ -28,7 +28,7 @@ class SendNotificationFcmJob implements ShouldQueue
      */
     public function handle(): void
     {
-        if (empty($this->user->fcm_token)) {
+        if (empty($this->user?->fcm_token)) {
             Log::info('SendNotificationFcmJob', [
                 'message' => 'User fcm token is empty',
                 'reminder' => $this->reminder,
