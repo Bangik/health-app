@@ -249,6 +249,44 @@ class UserController extends Controller
         return response()->json($response->toArray(), 200);
     }
 
+    public function sendTestNotifWithTopic(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'message' => 'string',
+        ]);
+
+        $userId = auth()->user()->id;
+
+        if ($validation->fails()) {
+            $response = new ResponseApiDto(
+                status: false,
+                code: 400,
+                message: 'Validation error',
+                data: $validation->errors()
+            );
+
+            return response()->json($response->toArray(), 400);
+        }
+
+        $message = $request->message ?? 'This is a test notification';
+        
+        $res = FcmHelper::send(
+            topic: 'notification' . $userId,
+            title: 'Test Notification',
+            bodyMessage: $message,
+            type: 'notification',
+        );
+
+        $response = new ResponseApiDto(
+            status: true,
+            code: 200,
+            message: 'Success send test notification',
+            data: $res
+        );
+
+        return response()->json($response->toArray(), 200);
+    }
+
     public function sendTestNotifWithFCM(Request $request)
     {
         $validation = Validator::make($request->all(), [
