@@ -12,6 +12,7 @@ use App\Models\MFoodIntake;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -356,6 +357,8 @@ class UserController extends Controller
             message: 'Success update FCM token',
             data: $user
         );
+
+        Log::info('FCM token updated for user', ['user' => $user, 'fcm_token' => $request->fcm_token]);
 
         return response()->json($response->toArray(), 200);
     }
