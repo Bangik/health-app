@@ -9,6 +9,7 @@ use App\Http\Resources\DailySummaryResource;
 use App\Http\Resources\FoodLogResource;
 use App\Models\Message;
 use App\Models\MFoodIntake;
+use App\Models\Note;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -212,6 +213,13 @@ class UserController extends Controller
         }
 
         return view('admin.user.summary', compact('id', 'dates', 'firstDate', 'lastDate'));
+    }
+
+    public function notes(Request $request, $id)
+    {
+        $notes = Note::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin.user.note', compact('id', 'notes'));
     }
     
     public function sendTestNotif(Request $request)
