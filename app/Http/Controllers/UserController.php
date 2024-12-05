@@ -366,7 +366,7 @@ class UserController extends Controller
             data: $user
         );
 
-        // Log::info('FCM token updated for user', ['user' => $user, 'fcm_token' => $request->fcm_token]);
+        Log::info('FCM token updated for user', ['user' => $user, 'fcm_token' => $request->fcm_token]);
 
         return response()->json($response->toArray(), 200);
     }
