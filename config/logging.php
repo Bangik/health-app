@@ -70,7 +70,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'info'),
-            'formatter' => \Monolog\Formatter\JsonFormatter::class,
+            // 'formatter' => \Monolog\Formatter\JsonFormatter::class,
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,
         ],
